@@ -1,6 +1,7 @@
 # Arch-Install-Script
 A simple script which automates arch-installation.
-Usage:
+
+# Usage:
 1. Clone this repository.
-2. Execute Arch.sh
-3. Follow the instructions.
+2. Execute Arch.sh or Arch(DUALBOOT).sh, depending on whether you want to install this with or without another OS.
+3. Follow the instructions given by the script.
