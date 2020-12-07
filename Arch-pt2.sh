@@ -17,7 +17,7 @@ read hostname
 echo $hostname >> /etc/hostname
 echo "127.0.0.1          localhost
 ::1                localhost
-127.0.1.1          $hostname.localdomain     $hostname"
+127.0.1.1          $hostname.localdomain     $hostname" >> /etc/hosts
 
 echo Please set root password
 passwd
