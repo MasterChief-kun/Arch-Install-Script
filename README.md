@@ -1,5 +1,5 @@
 # Arch-Install-Script
-A simple script which automates arch-installation.
+A script which automates arch-installation.
 
 # Usage:
 1. Clone this repository.
