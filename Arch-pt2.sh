@@ -34,11 +34,11 @@ pacman -S dosfstools efibootmgr mtools os-prober
 mkdir /boot/EFI
 echo "Please enter EFI partition(i.e: diskname1; eg:/dev/sda1)"
 read efi
+mount $efi /boot/EFI
 grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 pacman -S networkmanager
 systemctl enable NetworkManager
 echo Run umount -l /mnt and reboot.
-echo Hope this helped.
 exit
 
