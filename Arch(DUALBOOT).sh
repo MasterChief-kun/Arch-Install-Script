@@ -5,9 +5,6 @@ fdisk -l
 
 echo Which Disk do you want to install Arch Linux to?
 read diskname
-
-echo Do you want wipe your disk and install Arch Linux?y/n
-read wipe
 echo Unallocated Space: $(parted $diskname unit GB print free)  
 echo Size of root partition IN GB
 read rootpart
