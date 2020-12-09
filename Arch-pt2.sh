@@ -32,8 +32,7 @@ sed -i '82 s/^##*//' /etc/sudoers
 pacman -S grub
 pacman -S dosfstools efibootmgr mtools os-prober
 mkdir /boot/EFI
-echo "Please enter EFI partition(i.e: diskname1; eg:/dev/sda1)"
-read efi
+efi=$diskname1
 mount $efi /boot/EFI
 grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
