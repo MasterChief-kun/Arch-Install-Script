@@ -1,10 +1,11 @@
 #!/bin/bash
 
 timedatectl set-ntp true
-fdisk -l
-
+lsblk
 echo Which Disk do you want to install Arch Linux to?
 read diskname
+echo "How many partitions does the disk you want to install Arch linux to have?"
+read partnum
 echo Unallocated Space: $(parted $diskname unit GB print free)  
 echo Size of root partition IN GB
 read rootpart
@@ -27,9 +28,9 @@ parted $diskname mkpart primary linux-swap $rootpart${gig} $bruh${gig}
 
 parted $diskname set 1 esp on
 
-part1="1"
-part2="2"
-part3="3"
+part1=$((1 + partnum))
+part2=$((2 + partnum))
+part3=$((3 + partnum))
 mkfs.fat -F32 $diskname${part1}
 
 mkfs.ext4 $diskname${part2}
