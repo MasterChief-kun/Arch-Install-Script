@@ -32,7 +32,8 @@ sed -i '82 s/^##*//' /etc/sudoers
 pacman -S grub
 pacman -S dosfstools efibootmgr mtools os-prober
 mkdir /boot/EFI
-efi=$diskname1
+p1="1"
+efi=$diskname${p1}
 mount $efi /boot/EFI
 grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
