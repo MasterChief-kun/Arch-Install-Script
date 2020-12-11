@@ -47,5 +47,48 @@ genfstab -U /mnt >> /mnt/etc/fstab
 chmod a+x Arch-pt2.sh
 cp Arch-pt2.sh /mnt/
 echo Please execute Arch-pt2.sh 
-arch-chroot /mnt
+cat << BOI | arch-chroot /mnt
+#echo Please type your diskname
+#read diskname
+#echo Please type your region
+#ls /usr/share/zoneinfo/
+#read region
+#echo Please select city
+#ls /usr/share/zoneinfo/$region/
+#read city
+ln -sf /usr/share/zoneinfo/$region/$city /etc/localtime
+hwclock --systohc
+sed -i '/en_US.UTF-8/s/^#//g' /etc/locale.gen 
+locale-gen
+echo "LANG=en_US.UTF-8" >> locale.conf
+#echo Enter your hostname
+#read hostname
+echo $hostname >> /etc/hostname
+echo "127.0.0.1          localhost
+::1                localhost
+127.0.1.1          $hostname.localdomain     $hostname" >> /etc/hosts
+#echo Please set root password
+cat << RPSWD | passwd
+$rootpswd
+$rootpswd
+RPSWD
+#echo Enter username
+#read username
+useradd -m $username
+echo Enter password for user
+cat << UPSWD | passwd $username
+$upswd
+$upswd
+UPSWD
+usermod -aG wheel,audio,video,optical,storage $username
+sed -i '/%wheel\sALL=(ALL)\sALL/s/^#//g' /etc/sudoers
+mkdir /boot/EFI
+efi=${diskname}1
+part1= "1"
+mount $diskname${part1} /boot/EFI
+grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+systemctl enable NetworkManager
+echo Run umount -l /mnt and reboot.
+BOI
 
