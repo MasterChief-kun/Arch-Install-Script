@@ -65,7 +65,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 chmod a+x Arch-pt2.sh
 cp Arch-pt2.sh /mnt/
 echo "Please execute Arch-pt2.sh with "./Arch-pt2.sh""
-cat << CHROOT | arch-chroot /mnt
+cat << BOI | arch-chroot /mnt
 #echo Please type your diskname
 #read diskname
 #echo Please type your region
@@ -100,9 +100,11 @@ $upswd
 $upswd
 UPSWD
 usermod -aG wheel,audio,video,optical,storage $username
-pacman -S sudo dosfstools efibootmgr mtools os-prober grub networkmanager
+pacman -S sudo
 y
 sed -i '/%wheel\sALL=(ALL)\sALL/s/^#//g' /etc/sudoers
+pacman -S dosfstools efibootmgr mtools os-prober grub networkmanager
+y
 mkdir /boot/EFI
 efi=${diskname}1
 mount $efi /boot/EFI
@@ -110,4 +112,4 @@ grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
 echo Run umount -l /mnt and reboot.
-CHROOT
+BOI
