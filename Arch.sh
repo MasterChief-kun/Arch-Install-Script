@@ -59,7 +59,7 @@ swapon $diskname${part3}
 
 mount $diskname${part2} /mnt
 
-pacstrap /mnt base linux linux-firmware vim
+pacstrap /mnt base linux linux-firmware vim dosfstools efibootmgr mtools os-prober grub networkmanager sudo
 
 genfstab -U /mnt >> /mnt/etc/fstab
 chmod a+x Arch-pt2.sh
@@ -100,11 +100,7 @@ $upswd
 $upswd
 UPSWD
 usermod -aG wheel,audio,video,optical,storage $username
-pacman -S sudo
-y
 sed -i '/%wheel\sALL=(ALL)\sALL/s/^#//g' /etc/sudoers
-pacman -S dosfstools efibootmgr mtools os-prober grub networkmanager
-y
 mkdir /boot/EFI
 efi=${diskname}1
 mount $efi /boot/EFI
