@@ -100,16 +100,14 @@ useradd -m $username
 #$upswd
 #UPSWD
 usermod -aG wheel,audio,video,optical,storage $username
-pacman -S sudo
+pacman -S sudo dosfstools efibootmgr mtools os-prober grub networkmanager
+y
 sed -i '82 s/^##*//' /etc/sudoers
-pacman -S grub
-pacman -S dosfstools efibootmgr mtools os-prober
 mkdir /boot/EFI
 efi=${diskname}1
 mount $efi /boot/EFI
 grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
-pacman -S networkmanager
 systemctl enable NetworkManager
 echo Run umount -l /mnt and reboot.
 CHROOT
