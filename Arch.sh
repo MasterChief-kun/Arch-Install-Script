@@ -2,7 +2,20 @@
 
 timedatectl set-ntp true
 fdisk -l
-
+echo Please enter your Region
+ls /usr/share/zoneinfo/
+read region
+echo Please enter your city
+ls /usr/share/zoneinfo/$region/
+read city
+echo "Enter your hostname(Name by which you'll be identified on your network)"
+read hostname
+echo "Enter your username"
+read username
+echo "Please enter root password"
+read rootpswd
+echo "Please enter user password"
+read upswd
 echo Which Disk do you want to install Arch Linux to?
 read diskname
 
@@ -52,44 +65,51 @@ genfstab -U /mnt >> /mnt/etc/fstab
 chmod a+x Arch-pt2.sh
 cp Arch-pt2.sh /mnt/
 echo "Please execute Arch-pt2.sh with "./Arch-pt2.sh""
-cat << EOF | arch-chroot /mnt
-echo Please type your diskname
-read diskname
-echo Please type your region
-ls /usr/share/zoneinfo/
-read region
-echo Please select city
-ls /usr/share/zoneinfo/$region/
-read city
+cat << CHROOT | arch-chroot /mnt
+#echo Please type your diskname
+#read diskname
+#echo Please type your region
+#ls /usr/share/zoneinfo/
+#read region
+#echo Please select city
+#ls /usr/share/zoneinfo/$region/
+#read city
 ln -sf /usr/share/zoneinfo/$region/$city /etc/localtime
 hwclock --systohc
 sed -i '177 s/^##*//' /etc/locale.gen 
 locale-gen
 echo "LANG=en_US.UTF-8" >> locale.conf
-echo Enter your hostname
-read hostname
+#echo Enter your hostname
+#read hostname
 echo $hostname >> /etc/hostname
 echo "127.0.0.1          localhost
 ::1                localhost
 127.0.1.1          $hostname.localdomain     $hostname" >> /etc/hosts
 
-echo Please set root password
-passwd
-echo Enter username
-read username
+#echo Please set root password
+cat << RPSWD | passwd
+$rootpswd
+$rootpswd
+RPSWD
+#echo Enter username
+#read username
 useradd -m $username
-echo Enter password for user
-passwd $username
+#echo Enter password for user
+cat >> UPSWD | passwd $username
+$upswd
+$upswd
+UPSWD
 usermod -aG wheel,audio,video,optical,storage $username
 pacman -S sudo
 sed -i '82 s/^##*//' /etc/sudoers
 pacman -S grub
 pacman -S dosfstools efibootmgr mtools os-prober
 mkdir /boot/EFI
-efi=$diskname1
+efi=${diskname}1
 mount $efi /boot/EFI
 grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 pacman -S networkmanager
 systemctl enable NetworkManager
 echo Run umount -l /mnt and reboot.
+CHROOT
