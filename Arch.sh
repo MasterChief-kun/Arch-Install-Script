@@ -103,7 +103,8 @@ usermod -aG wheel,audio,video,optical,storage $username
 sed -i '/%wheel\sALL=(ALL)\sALL/s/^#//g' /etc/sudoers
 mkdir /boot/EFI
 efi=${diskname}1
-mount $efi /boot/EFI
+part1= "1"
+mount $diskname${part1} /boot/EFI
 grub-install --target=x86_64-efi --bootloader-id=mygrub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
