@@ -95,7 +95,7 @@ RPSWD
 #read username
 useradd -m $username
 echo Enter password for user
-cat >> UPSWD | passwd $username
+cat << UPSWD | passwd $username
 $upswd
 $upswd
 UPSWD
