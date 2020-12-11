@@ -102,7 +102,7 @@ useradd -m $username
 usermod -aG wheel,audio,video,optical,storage $username
 pacman -S sudo dosfstools efibootmgr mtools os-prober grub networkmanager
 y
-sed -i '82 s/^##*//' /etc/sudoers
+sed -i '/%wheel\sALL=(ALL)\sALL/s/^#//g' /etc/sudoers
 mkdir /boot/EFI
 efi=${diskname}1
 mount $efi /boot/EFI
