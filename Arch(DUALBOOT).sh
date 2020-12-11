@@ -1,15 +1,32 @@
-#!/bin/bash
 
 timedatectl set-ntp true
-lsblk
+fdisk -l
+echo Please enter your Region
+ls /usr/share/zoneinfo/
+read region
+echo Please enter your city
+ls /usr/share/zoneinfo/$region/
+read city
+echo "Enter your hostname(Name by which you'll be identified on your network)"
+read hostname
+echo "Enter your username"
+read username
+echo "Please enter root password"
+read rootpswd
+echo "Please enter user password"
+read upswd
 echo Which Disk do you want to install Arch Linux to?
 read diskname
-echo "How many partitions does the disk you want to install Arch linux to have?"
-read partnum
+
+echo Do you want wipe your disk and install Arch Linux?y/n
+read wipe
 echo Unallocated Space: $(parted $diskname unit GB print free)  
+echo " "
 echo Size of root partition IN GB
 read rootpart
+echo " "
 echo Unallocated Space: $(parted $diskname unit GB print free) 
+echo " "
 echo Size of SWAP partition
 read swappart
 echo Unallocated Space: $(parted $diskname unit GB print free)
