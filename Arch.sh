@@ -95,10 +95,10 @@ RPSWD
 #read username
 useradd -m $username
 #echo Enter password for user
-cat >> UPSWD | passwd $username
-$upswd
-$upswd
-UPSWD
+#cat >> UPSWD | passwd $username
+#$upswd
+#$upswd
+#UPSWD
 usermod -aG wheel,audio,video,optical,storage $username
 pacman -S sudo
 sed -i '82 s/^##*//' /etc/sudoers
