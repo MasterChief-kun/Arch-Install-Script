@@ -20,16 +20,16 @@ read diskname
 
 echo "Do you want wipe your disk and install Arch Linux?(y/n)"
 read wipe
-echo Unallocated Space: $(parted /dev/sda unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}')  
+echo Unallocated Space: $(parted $diskname unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}')  
 echo " "
 echo Size of root partition IN GB
 read rootpart
 echo " "
-echo Unallocated Space: $(parted /dev/sda unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}') 
+echo Unallocated Space: $(parted $diskname unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}') 
 echo " "
 echo Size of SWAP partition
 read swappart
-echo Unallocated Space: $(parted /dev/sda unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}')
+echo Unallocated Space: $(parted $diskname unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}')
 #totalspace=((df -P | awk 'NR>2 && /^\/dev\//{sum+=$2}END{print sum}')/(1024^2))        
 #rspacep=($rootpart/$totalspace)*100
 #swspacep=($swappart/$totalspace)*100
