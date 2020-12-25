@@ -34,6 +34,14 @@ echo Unallocated Space: $(parted $diskname unit GB print free | grep 'Free Space
 #totalspace=((df -P | awk 'NR>2 && /^\/dev\//{sum+=$2}END{print sum}')/(1024^2))	
 #rspacep=($rootpart/$totalspace)*100
 #swspacep=($swappart/$totalspace)*100
+gig="GB"
+cat << EOF
+Irreversible changes will be made after this, please verify all the information that you have entered:
+Root Space: $root${gig} | Swap Space: $swap${gig} | Region: $region | City: $city
+Hostname: $hostname | Username: $username | Root Password: $rootpswd | User Password: $upswd
+EOF
+echo "If you see something wrong press Ctrl+C and restart the script, if nothing is wrong press Enter to continue"
+read confirm
 bruh=$((rootpart + swappart))
 gig='G'
 parted $diskname mklabel GPT
