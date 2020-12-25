@@ -44,8 +44,9 @@ parted $diskname mkpart primary ext4 512M $rootpart${gig}
 parted $diskname mkpart primary linux-swap $rootpart${gig} $bruh${gig}
 
 parted $diskname set 1 esp on
-
-partnum=$(grep -c 'sda[0-9]' /proc/partitions)
+dev="/dev/"
+disknamewodev=${diskname//$dev/}
+partnum=$(grep -c "$disknamewodev[0-9]" /proc/partitions)
 part1=$((1 + partnum))
 part2=$((2 + partnum))
 part3=$((3 + partnum))
